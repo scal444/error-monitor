@@ -1,0 +1,56 @@
+// Copyright 2021 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package ocpdiag.error_monitor;
+
+message PciCrawlerReadout {
+  // Maps address to link info
+  map<string, PciLinkInfo> pci_links = 1;
+}
+
+message AerSubcategoryReadings {
+  map<string, int32> aer_dev_correctable = 1;
+  map<string, int32> aer_dev_fatal = 2;
+  map<string, int32> aer_dev_nonfatal = 3;
+}
+
+message AerReadings {
+  // To match nested json name.
+  AerSubcategoryReadings device = 1;
+  // Rootport error totals.
+  map<string, int32> rootport = 2;
+}
+
+message PciLinkInfo {
+  int32 vendor_id = 1;
+  int32 device_id = 2;
+  int32 class_id = 3;
+  int32 subsystem_vendor = 4;
+  int32 subsystem_device = 5;
+  string addr = 6;
+  string express_type = 7;
+  string cur_speed = 8;
+  int32 cur_width = 9;
+  string capable_speed = 10;
+  int32 capable_width = 11;
+  string target_speed = 12;
+  int32 slot = 13;
+  bool presence = 14;
+  bool power = 15;
+  string attn_led = 16;
+  repeated string path = 17;
+  AerReadings aer = 18;
+}

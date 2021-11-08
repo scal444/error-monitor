@@ -1,0 +1,53 @@
+// Copyright 2021 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package ocpdiag.error_monitor;
+
+import "ocpdiag/core/params/ocpdiag_params.proto";
+
+option (.ocpdiag.options).params_message = "ocpdiag.error_monitor.Params";
+
+message Threshold {
+  int32 max_count_per_day = 1;
+}
+
+enum MonitorType {
+  DIMM_ERROR_MONITOR = 0;
+  PCIE_ERROR_MONITOR = 1;
+}
+
+message Params {
+  // Polling interval, default 300 seconds.
+  int32 polling_interval_secs = 1;
+  // Total runtime. Default or 0 means infinity.
+  int32 runtime_secs = 2;
+  // Max memory correctable ecc errors per day.
+  // Default 4000.
+  Threshold cecc_threshold = 3;
+  // Max memory uncorrectable ecc errors per day.
+  // Default 0.
+  Threshold uecc_threshold = 4;
+  // Mapping dimm_name to part name.
+  // Begin google3
+  // We usually map to Gsys/Machine Manager part names.
+  // End google3
+  // Example:
+  //   CPU_SrcID#0_MC#0_Chan#0_DIMM#0 to DIMM0.
+  map<string, string> dimm_name_map = 5;
+  // Error monitors to spin up. If empty, runs all of them.
+  repeated MonitorType monitors = 6;
+  string pcicrawler_path = 7;
+}

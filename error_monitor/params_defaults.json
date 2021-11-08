@@ -1,0 +1,13 @@
+{
+  "polling_interval_secs": 300,
+  "cecc_threshold": {
+    "max_count_per_day": 4000
+  },
+  "uecc_threshold": {
+    "max_count_per_day": 0
+  },
+  "runtime_secs": 1500,
+  "dimm_name_map" : {
+  },
+  "monitors": [0]
+}

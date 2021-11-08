@@ -1,0 +1,4 @@
+build --cxxopt='-std=c++17'
+
+# Tell googletest to use absl.
+build --define absl=1
